@@ -1,0 +1,31 @@
+- id: '1575836404896'
+  name: Sleep time
+  entities:
+    light.dinning_light: 'off'
+    light.fish_light: 'off'
+    light.industrial_lamp: 'off'
+    light.kitchen_cupboard_light: 'off'
+    light.kitchen_light: 'off'
+    light.lounge_light: 'off'
+    light.white_lamp: 'off'
+- id: '1584818361895'
+  name: Sunset
+  entities:
+    light.dinning_light: 'on'
+    light.fish_light: 'on'
+    light.industrial_lamp: 'on'
+    light.kitchen_cupboard_light: 'on'
+    light.kitchen_light: 'on'
+    light.lounge_light: 'on'
+    light.white_lamp: 'on'
+- id: '1588626354435'
+  name: Late night low light
+  entities:
+    light.industrial_lamp: 'on'
+    light.white_lamp: 'on'
+- id: '1597098984874'
+  name: Morning
+  entities:
+    cover.front_awning:
+      current_position: 100
+      state: open

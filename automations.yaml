@@ -1,0 +1,154 @@
+- id: '1575830260048'
+  alias: Sunrise
+  description: ''
+  trigger:
+  - event: sunrise
+    platform: sun
+  condition: []
+  action:
+  - scene: scene.morning
+- id: '1575830324507'
+  alias: Sleep time
+  description: ''
+  trigger:
+  - at: '23:00'
+    platform: time
+  condition: []
+  action:
+  - scene: scene.sleep_time
+- id: '1584818279023'
+  alias: Sunset
+  description: ''
+  trigger:
+  - event: sunset
+    platform: sun
+  condition: []
+  action:
+  - scene: scene.sunset
+- id: '1584869467843'
+  alias: leaving home
+  description: ''
+  trigger:
+  - entity_id: person.gary
+    for: 00:00:01
+    from: home
+    platform: state
+    to: not_home
+  - entity_id: person.keren
+    for: 00:00:01
+    from: home
+    platform: state
+    to: not_home
+  condition: []
+  action:
+  - data:
+      message: dont get corona :)
+      title: Hey! stay 1.5m apart
+    service: notify.mobile_app_s90pro
+  - data:
+      message: come back soon and dont get corona
+      title: hey, you left home.
+    service: notify.mobile_app_oneplus_a6003
+- id: '1586355883744'
+  alias: coffee machine off
+  description: ''
+  trigger:
+  - entity_id: switch.coffee_machine
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - delay: 00:30:00
+  - device_id: 91e91898057943c1b0ae8eb185911e99
+    domain: switch
+    entity_id: switch.coffee_machine
+    type: turn_off
+  mode: restart
+- id: '1586357297748'
+  alias: coffee machine preheat
+  description: ''
+  trigger:
+  - hours: 08
+    minutes: '30'
+    platform: time_pattern
+  - hours: '13'
+    minutes: '00'
+    platform: time_pattern
+  - hours: '16'
+    minutes: '00'
+    platform: time_pattern
+  condition:
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  action:
+  - device_id: 91e91898057943c1b0ae8eb185911e99
+    domain: switch
+    entity_id: switch.coffee_machine
+    type: turn_on
+- id: '1588626335977'
+  alias: Late night low light
+  description: ''
+  trigger:
+  - at: '21:30'
+    platform: time
+  condition: []
+  action:
+  - scene: scene.late_night_low_light
+- id: '1592338593066'
+  alias: Fish light
+  description: ''
+  trigger:
+  - at: '10:00'
+    platform: time
+  condition: []
+  action:
+  - device_id: b1ec488bbe494df6980382c4b0ebc6f6
+    domain: light
+    entity_id: light.fish_light
+    type: turn_on
+  mode: single
+- id: '1595602568979'
+  alias: Turn lights off - daytime
+  description: ''
+  trigger:
+  - event_data:
+      domain: light
+      service: turn_on
+    event_type: call_service
+    platform: event
+  condition:
+  - after: sunrise
+    before: sunset
+    condition: sun
+  - condition: template
+    value_template: '{{ trigger.event.data.service_data.entity_id != ''light.fish_light''
+      }}'
+  action:
+  - delay: 00:10:00
+  - data_template:
+      entity_id: '{{ trigger.event.data.service_data.entity_id }}'
+    service: light.turn_off
+  mode: parallel
+  max: 10
+- id: '1595602568978'
+  alias: Turn lights off - nighttime
+  description: ''
+  trigger:
+  - event_data:
+      domain: light
+      service: turn_on
+    event_type: call_service
+    platform: event
+  condition:
+  - before: sunrise
+    after: sunset
+    condition: sun
+  action:
+  - delay: 01:00:00
+  - data_template:
+      entity_id: '{{ trigger.event.data.service_data.entity_id }}'
+    service: light.turn_off
+  mode: parallel
+  max: 10

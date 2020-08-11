@@ -1,0 +1,121 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+homeassistant:
+  customize: !include customize.yaml
+
+  auth_providers:
+    - type: trusted_networks
+      trusted_networks:
+        - 10.16.0.0/16
+        - 127.0.0.1
+      allow_bypass_login: true
+
+discovery:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+http:
+  base_url: https://home.krige.nl/
+
+# For google Calendar
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+
+google_assistant:
+  project_id: homeassitant-271820
+  service_account: !include google-service-account.json
+  report_state: true
+  exposed_domains:
+    - switch
+    - light
+
+weather:
+  - platform: darksky
+    api_key: !secret darksky_api_key
+
+binary_sensor:
+  - platform: workday
+    country: NL
+
+sensor:
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    forecast:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+    monitored_conditions:
+      - summary
+      - icon
+      - temperature
+      - wind_speed
+      - apparent_temperature
+    #   - hourly_summary
+
+# Text to speech
+tts:
+  - platform: google_translate
+    cache: true
+    cache_dir: /tmp/tts
+    time_memory: 300
+    base_url: https://home.krige.nl/
+    service_name: google_say
+
+spotify:
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret
+
+notify:
+  - platform: html5
+    name: push
+    vapid_pub_key: !secret vapid_pub_key
+    vapid_prv_key: !secret vapid_prv_key
+    vapid_email: 'gary@krige.nl'
+
+zone:
+  - name: Dirk
+    latitude: 52.313181690982155
+    longitude: 4.8764169216156015
+    radius: 31
+    icon: mdi:cart
+
+  - name: Home
+    latitude: 52.3138261100252
+    longitude: 4.875739663839341
+    radius: 20
+    icon: "mdi:account-multiple"
+
+wake_on_lan:
+
+switch:
+  - platform: wake_on_lan
+    name: "Gary's PC"
+    mac: 18:31:BF:C8:38:F6
+    broadcast_address: 192.168.178.60
+    host: 192.168.178.204
+    turn_off:
+      service: shell_command.turn_off_gary
+
+  - platform: wake_on_lan
+    name: "Keren's PC"
+    mac: F4:6D:04:04:D6:4C
+    broadcast_address: 192.168.178.60
+    host: 192.168.178.235
+    turn_off:
+      service: shell_command.turn_off_keren
+
+shell_command:
+  turn_off_keren: 'ssh -o StrictHostKeyChecking=no hass@192.168.178.235 sudo shutdown now'
+  turn_off_gary: 'ssh -o StrictHostKeyChecking=no hass@192.168.178.204 sudo shutdown now'
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

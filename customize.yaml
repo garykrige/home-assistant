@@ -1,0 +1,9 @@
+switch.gary_pc:
+  friendly_name: gary-pc
+  icon: mdi:desktop-tower-monitor
+switch.keren_pc:
+  icon: mdi:desktop-tower-monitor
+switch.gary_s_pc:
+  icon: mdi:desktop-tower-monitor
+switch.keren_s_pc:
+  icon: mdi:desktop-tower-monitor
