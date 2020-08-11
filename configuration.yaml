@@ -85,6 +85,11 @@ notify:
     vapid_prv_key: !secret vapid_prv_key
     vapid_email: 'gary@krige.nl'
 
+vacuum:
+  - platform: xiaomi_miio
+    host: 192.168.178.213
+    token: !secret robo_key
+
 zone: !include zones.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
