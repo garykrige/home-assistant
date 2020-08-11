@@ -85,42 +85,7 @@ notify:
     vapid_prv_key: !secret vapid_prv_key
     vapid_email: 'gary@krige.nl'
 
-zone:
-  - name: Dirk
-    latitude: 52.313181690982155
-    longitude: 4.8764169216156015
-    radius: 31
-    icon: mdi:cart
-
-  - name: Home
-    latitude: 52.3138261100252
-    longitude: 4.875739663839341
-    radius: 20
-    icon: "mdi:account-multiple"
-
-wake_on_lan:
-
-#switch:
-#  - platform: wake_on_lan
-#    name: "Gary's PC"
-#    mac: 18:31:BF:C8:38:F6
-#    broadcast_address: 192.168.178.60
-#    host: 192.168.178.204
-#    turn_off:
-#      service: shell_command.turn_off_gary
-
-#  - platform: wake_on_lan
-#    name: "Keren's PC"
-#    mac: F4:6D:04:04:D6:4C
-#    broadcast_address: 192.168.178.60
-#    host: 192.168.178.235
-#    turn_off:
-#      service: shell_command.turn_off_keren
-
-#shell_command:
-#  turn_off_keren: 'ssh -o StrictHostKeyChecking=no hass@192.168.178.235 sudo shutdown now'
-#  turn_off_gary: 'ssh -o StrictHostKeyChecking=no hass@192.168.178.204 sudo shutdown now'
-
+zone: !include zones.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
