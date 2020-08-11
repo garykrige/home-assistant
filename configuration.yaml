@@ -18,7 +18,13 @@ discovery:
 # http:
 #   base_url: example.duckdns.org:8123
 http:
-  base_url: https://home.krige.nl/
+  cors_allowed_origins:
+    - https://home.krige.nl
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 10.16.0.0/16
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
 
 # For google Calendar
 google:
