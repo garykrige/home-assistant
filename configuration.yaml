@@ -5,12 +5,12 @@ default_config:
 homeassistant:
   customize: !include customize.yaml
 
-  auth_providers:
-    - type: trusted_networks
-      trusted_networks:
-        - 10.16.0.0/16
-        - 127.0.0.1
-      allow_bypass_login: true
+#  auth_providers:
+#    - type: trusted_networks
+#      trusted_networks:
+#        - 10.16.0.0/16
+#        - 127.0.0.1
+#      allow_bypass_login: true
 
 discovery:
 
