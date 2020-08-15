@@ -87,7 +87,7 @@ notify:
 
 vacuum:
   - platform: xiaomi_miio
-    host: 192.168.178.213
+    host: 192.168.178.215
     token: !secret robo_key
 
 zone: !include zones.yaml
