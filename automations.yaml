@@ -113,22 +113,22 @@
   alias: Turn lights off - daytime
   description: ''
   trigger:
-  - event_data:
-      domain: light
-      service: turn_on
-    event_type: call_service
-    platform: event
+  - entity_id:
+    - light.toilet_light
+    - light.kitchen_cupboard_light
+    - light.kitchen_light
+    - light.bathroom_light
+    - light.bedroom_light
+    platform: state
+    to: 'on'
   condition:
   - after: sunrise
     before: sunset
     condition: sun
-  - condition: template
-    value_template: '{{ trigger.event.data.service_data.entity_id != ''light.fish_light''
-      }}'
   action:
   - delay: 00:10:00
   - data_template:
-      entity_id: '{{ trigger.event.data.service_data.entity_id }}'
+      entity_id: '{{ trigger.entity_id }}'
     service: light.turn_off
   mode: parallel
   max: 10
@@ -136,19 +136,22 @@
   alias: Turn lights off - nighttime
   description: ''
   trigger:
-  - event_data:
-      domain: light
-      service: turn_on
-    event_type: call_service
-    platform: event
+  - entity_id:
+    - light.toilet_light
+    - light.kitchen_cupboard_light
+    - light.kitchen_light
+    - light.bathroom_light
+    - light.bedroom_light
+    platform: state
+    to: 'on'
   condition:
-  - before: sunrise
-    after: sunset
+  - after: sunsets
+    before: unrise
     condition: sun
   action:
   - delay: 01:00:00
   - data_template:
-      entity_id: '{{ trigger.event.data.service_data.entity_id }}'
+      entity_id: '{{ trigger.entity_id }}'
     service: light.turn_off
   mode: parallel
   max: 10
