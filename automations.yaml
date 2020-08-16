@@ -145,8 +145,8 @@
     platform: state
     to: 'on'
   condition:
-  - after: sunsets
-    before: unrise
+  - after: sunset
+    before: sunrise
     condition: sun
   action:
   - delay: 01:00:00
